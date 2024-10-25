@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brain Tumor Detection</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-xl rounded-lg p-8 max-w-md w-full text-center">
+      <!-- Judul Halaman -->
+      <h1 class="text-3xl font-bold text-gray-800 mb-6">
+        Upload MRI Image for Tumor Detection
+      </h1>
+
+      <!-- Form Upload -->
+      <form
+        action="{{ url_for('predict') }}"
+        method="POST"
+        enctype="multipart/form-data"
+        class="space-y-6"
+      >
+        <!-- Input File -->
+        <div>
+          <label for="imageInput" class="block text-gray-700 font-semibold mb-2"
+            >Select an MRI Image</label
+          >
+          <input
+            type="file"
+            id="imageInput"
+            name="file"
+            accept="image/*"
+            onchange="previewImage(event)"
+            required
+            class="block w-full text-gray-800 bg-gray-50 border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <!-- Preview Gambar -->
+        <div class="flex justify-center">
+          <img
+            id="imagePreview"
+            class="max-w-full mt-4 rounded-md shadow-md border border-gray-300"
+            style="display: none; max-height: 200px"
+          />
+        </div>
+
+        <!-- Tombol Submit -->
+        <button
+          type="submit"
+          class="w-full bg-blue-500 text-white font-semibold py-3 px-6 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+        >
+          Predict Tumor
+        </button>
+      </form>
+    </div>
+
+    <!-- Script Preview Gambar -->
+    <script>
+      function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          const output = document.getElementById("imagePreview");
+          output.src = reader.result;
+          output.style.display = "block"; // Show the preview image
+        };
+        reader.readAsDataURL(event.target.files[0]);
+      }
+    </script>
+  </body>
+</html>
